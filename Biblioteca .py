@@ -16,10 +16,7 @@ Encapsulamento: Utilizzerai l'incapsulamento per controllare l'accesso
 agli attributi. Per esempio, potresti rendere l'attributo disponibile 
 modificabile solo tramite i metodi della classe, impedendo modifiche 
 dirette e non autorizzate.
-
-Crea anche una classe Membro per gestire i dati degli utenti 
-(nome, ID, libri presi in prestito). Questo ti aiuterà a capire come gli 
-oggetti possono interagire tra loro."""
+"""
 
 class Libro:
     def __init__(self, titolo, autore, anno_pubblicazione, disponibile=True):
@@ -41,8 +38,12 @@ class Libro:
                 print(f"Hai restituito il libro: '{self.__titolo}'")
             else:
                 print(f'il libro non e stato prestato')
+    
+    def __str__(self):
+        return f"""Libro: Titolo {self.__titolo} | Autore {self.__autore} 
+               | Anno di pubblicazione {self.__anno_pubblicazione} | Disponibilita {self.__disponibile}"""
 
-dizionazio_libro = {}
+dizionario_libro = {}
 
 while True:
     scegli = input('[A]ggiunti \n[P]restito \n[R]estituisci \n[L]ista libri \n[E]sci \n').lower()
@@ -54,25 +55,26 @@ while True:
         anno = input('anno di pubblicazione del libro: ')
         disponibile = input('Il libro è disponibile? (s/n): ').lower() == 's'
         libro = Libro(titolo, autore, anno, disponibile)
-        dizionazio_libro[titolo] = libro
+        dizionario_libro[titolo] = libro
         print(f"Libro '{titolo}' aggiunto con successo.")
     elif scegli == 'p':
         titolo = input('Titolo del libro da prendere in prestito: ').lower()
-        if titolo in dizionazio_libro:
-            dizionazio_libro[titolo].prendi_in_prestito()
+        if titolo in dizionario_libro:
+            dizionario_libro[titolo].prendi_in_prestito()
         else:
             print("Libro non trovato.")
     elif scegli == 'r':
         titolo = input('Titolo del libro da restituire: ').lower()
-        if titolo in dizionazio_libro:
-            dizionazio_libro[titolo].restituisci()
+        if titolo in dizionario_libro:
+            dizionario_libro[titolo].restituisci()
         else:
             print("Libro non trovato.")
     elif scegli == 'l':
-        if not dizionazio_libro:
+        if not dizionario_libro:
             print("Nessun libro in archivio.")
         else:
-            for libro in dizionazio_libro.items():
-                print(f'lista dei libri: {libro}')
+            print("\n Lista dei libri:")
+            for libro in dizionario_libro.values:
+                print(libro)
     else:
         print('invio non valito')
